@@ -1,5 +1,5 @@
 import express from 'express';
-import resize from '../../utilities/imageProcessing';
+import {resize, isImageExist} from '../../utilities/imageProcessingHelpers';
 import {query, validationResult} from 'express-validator'
 const images = express.Router();
 
@@ -20,14 +20,19 @@ images.get('/',
     const imgFileName = String(filename);
     const imgWidth = Number(width);
     const imgHeight = Number(height);
+    const filePath = `images/thumb/${imgFileName}_${imgWidth}_${imgHeight}.jpg`;
     
-    try{
-        await resize(imgFileName, imgWidth, imgHeight);
-        res.status(200).sendFile(`images/thumb/${imgFileName}_${imgWidth}_${imgHeight}.jpg`, {root: '.'})
-    }catch(err){
-        console.log(err)
-    }
-    
+        if(isImageExist(filePath)){
+            //If the image already exists send the saved version
+            res.status(200).sendFile(filePath, {root: '.'});
+        }else{
+            try{
+                await resize(imgFileName, imgWidth, imgHeight);
+                res.status(200).sendFile(filePath, {root: '.'});
+            }catch(err){
+                console.log(err);
+            }
+        }
 })
 
 export default images;
