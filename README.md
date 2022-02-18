@@ -43,7 +43,7 @@ npm run test
 
 - Start the server
 
-- To resize an image visit the endpoint http://localhost:3000/api/images/filename={filename}&width={width}&height={height}. Provide the image filename (without the extension), width, and height in the endpoint query
+- To resize an image visit the endpoint `http://localhost:3000/api/images?filename={filename}&width={width}&height={height}`. Provide the image filename (without the extension), width, and height in the endpoint query
 
 - A new image will be saved in the images/thumb folder with the name filename_width_height.jpg
 
