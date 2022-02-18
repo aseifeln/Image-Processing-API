@@ -39,20 +39,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var supertest_1 = __importDefault(require("supertest"));
-var index_1 = __importDefault(require("../index"));
-var request = (0, supertest_1.default)(index_1.default);
-describe('Test main api endpoint responses', function () {
-    it('gets the api endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-});
+exports.isImageExist = exports.resize = void 0;
+var sharp_1 = __importDefault(require("sharp"));
+var fs_1 = require("fs");
+// Resize an image's width and height using the 3rd party library sharp
+var resize = function (fileName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, sharp_1.default)("images/full/".concat(fileName, ".jpg"))
+                        .resize(width, height)
+                        .toFile("images/thumb/".concat(fileName, "_").concat(width, "_").concat(height, ".jpg"))];
+            case 1: return [2 /*return*/, _a.sent()];
+            case 2:
+                err_1 = _a.sent();
+                throw new Error("".concat(err_1));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.resize = resize;
+// Checks if an image already exists
+var isImageExist = function (filePath) {
+    return (0, fs_1.existsSync)(filePath);
+};
+exports.isImageExist = isImageExist;

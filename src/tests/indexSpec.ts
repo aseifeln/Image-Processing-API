@@ -1,7 +1,7 @@
 import supertest from "supertest";
-import routes from '../../routes/index';
+import app from '../index';
 
-const request = supertest(routes);
+const request = supertest(app);
 describe('Test main api endpoint responses', () => {
     it('gets the api endpoint', async () => {
         const response = await request.get('/api');

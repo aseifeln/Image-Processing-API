@@ -1,14 +1,14 @@
-import sharp from 'sharp';
+import sharp, { OutputInfo } from 'sharp';
 import {existsSync} from 'fs';
 
 // Resize an image's width and height using the 3rd party library sharp
-const resize = async (fileName: string, width: number, height: number): Promise<void> => {
+const resize = async (fileName: string, width: number, height: number): Promise<OutputInfo> => {
     try{
-     await sharp(`images/full/${fileName}.jpg`)
+      return await sharp(`images/full/${fileName}.jpg`)
         .resize(width, height)
         .toFile(`images/thumb/${fileName}_${width}_${height}.jpg`)
     }catch(err){
-        console.error(err)
+        throw new Error(`${err}`);
     }
 }
 

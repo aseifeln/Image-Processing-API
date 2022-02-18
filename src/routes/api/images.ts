@@ -22,19 +22,21 @@ images.get('/',
     const imgFileName = String(filename);
     const imgWidth = Number(width);
     const imgHeight = Number(height);
-    const filePath = `images/thumb/${imgFileName}_${imgWidth}_${imgHeight}.jpg`;
-    
-        if(isImageExist(filePath)){
-            //If the image already exists send the saved version
-            res.status(200).sendFile(filePath, {root: '.'});
-        }else{
-            try{
-                await resize(imgFileName, imgWidth, imgHeight);
-                res.status(200).sendFile(filePath, {root: '.'});
-            }catch(err){
-                console.log(err);
-            }
+    const resizedImgFilePath = `images/thumb/${imgFileName}_${imgWidth}_${imgHeight}.jpg`;
+    const originalImgFilePath = `images/full/${imgFileName}.jpg`;
+    if(!isImageExist(originalImgFilePath)){
+        res.status(404).json({error: "Image does not exist"});
+    }else if(isImageExist(resizedImgFilePath)){
+        //If the image already exists send the saved version
+        res.status(200).sendFile(resizedImgFilePath, {root: '.'});
+    }else{
+        try{
+            await resize(imgFileName, imgWidth, imgHeight);
+            res.status(200).sendFile(resizedImgFilePath, {root: '.'});
+        }catch(err){
+            console.log(err);
         }
+    }
 })
 
 export default images;
