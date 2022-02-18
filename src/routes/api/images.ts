@@ -3,6 +3,8 @@ import {resize, isImageExist} from '../../utilities/imageProcessingHelpers';
 import {query, validationResult} from 'express-validator'
 const images = express.Router();
 
+// @route   GET /api/images?filename={filename}&width={width}&height={height}
+// @desc    GET resized image given a specific width and height
 images.get('/', 
     //filename must exist and be a string
     query('filename', 'Image filename is invalid or not provided').exists().not().isInt(),
