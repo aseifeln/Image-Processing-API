@@ -59,6 +59,8 @@ An error will be thrown in the following cases:
 
 - Image height is not provided, or is not an integer
 
+    Error messages are sent as a response in json format 
+
 
 ## Copyright and licensing information.
 
