@@ -16,11 +16,12 @@ images.get(
     query('width', 'Image width is invalid or not provided').exists().isInt(),
     //image height must exist and be an integer
     query('height', 'Image height is invalid or not provided').exists().isInt(),
-    async (req: express.Request, res: express.Response) => {
+    async (req: express.Request, res: express.Response): Promise<void> => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            res.status(400).json({ errors: errors.array() });
+            return;
         }
         const { filename, width, height } = req.query;
         const imgFileName = String(filename);
